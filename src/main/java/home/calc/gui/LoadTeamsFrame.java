@@ -20,8 +20,8 @@ public class LoadTeamsFrame extends JFrame {
         this.setPreferredSize(new Dimension(300, 100));
         JPanel panel = new JPanel();
         this.setContentPane(panel);
-        team1 = new JTextField("/home/def/test.php");
-        team2 = new JTextField("/home/def/test2.php");
+        team1 = new JTextField("http://wifa.ws/modules.php?name=ngClub&cuid=941");
+        team2 = new JTextField("http://wifa.ws/modules.php?name=ngClub&cuid=2478");
         JButton load = new JButton("Load");
         panel.setLayout(new GridLayout(3,2));
         panel.add(new JLabel("My team"));
