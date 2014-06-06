@@ -1,6 +1,5 @@
 package home.calc;
 
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 import home.calc.utils.Positions;
 
 import java.util.*;
@@ -681,7 +680,7 @@ public class LineupList {
                 teamCounter.setMaxValues(i);
                 while (teamCounter.notFinished()) {
                     // генерим все варианты составов
-                    Lineup lineup = new Lineup();
+                    Lineup lineup = new Lineup(team);
                     Integer p = 0;
                     for (Positions position: formation) {
 
@@ -698,9 +697,6 @@ public class LineupList {
                         System.out.println("После");
                         lineup.printLineUp();
                         this.allLineups.add(lineup);
-                    }
-                    else {
-    //                    System.out.println("Нашли некорректный состав");
                     }
                     teamCounter.nextVal();
                 }

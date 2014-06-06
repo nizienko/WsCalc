@@ -115,7 +115,7 @@ public class Roster extends JPanel {
         generateLineupsPanel = new JPanel();
         generateLineupsPanel.setLayout(new GridLayout(1,5));
         this.add(generateLineupsPanel, BorderLayout.SOUTH);
-        str = new JTextField("80");
+        str = new JTextField("20");
         fit = new JTextField("85");
         findLineups = new JButton("find");
         findLineups.setActionCommand(own);
@@ -193,7 +193,7 @@ public class Roster extends JPanel {
                     p.getPosition().toString(),
                     p.getPlayer().getName(),
                     p.getPredictedStrength().toString(),
-                    p.getPlayer().getFitness().toString(),
+                    p.getPlayer().getFitness().toString()+"%",
                     p.getPlayer().getSpecialities()
 
             });
@@ -241,6 +241,23 @@ public class Roster extends JPanel {
                 "Right" ,
                 players.getRightLineStrength().toString()
         });
+        if (players.getSubstitutions().size()>0){
+            model2.addRow(new String[]{
+                    "Substitutions",
+                    "" ,
+                    ""
+            });
+        }
+        for(Player p: players.getSubstitutions()){
+            model2.addRow(new String[]{
+                    p.getPosition().toString(),
+                    p.getName(),
+                    p.getRealStrength().toString(),
+                    p.getFitness().toString() + "%("+p.getGames()+")",
+                    p.getSpecialities()
+
+            });
+        }
         this.totalLineups.setText(totalLineups);
 
     }

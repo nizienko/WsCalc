@@ -30,11 +30,8 @@ public class Player {
     private Performance performance;
 
     public Player(Element player) {
-//        System.out.println("------------");
         this.name = player.select("a[href*=ngPlayerInfo]").text();
-//        System.out.println("Имя - " + this.name);
         this.position = player.select("td:eq(4)").text();
-//        System.out.println("Позиция - " + this.position);
         try {
             this.age = Integer.parseInt(player.select("td:eq(5)").text().replace("\u00a0",""));
         }
@@ -42,7 +39,6 @@ public class Player {
             e.printStackTrace();
             this.age = 0;
         }
-//        System.out.println("Возраст - " + this.age);
         try {
             this.strength = Integer.parseInt(player.select("td:eq(6)").text().replace("\u00a0",""));
         }
@@ -50,7 +46,6 @@ public class Player {
             e.printStackTrace();
             this.strength = 0;
         }
-//        System.out.println("Сила - " + this.strength);
         try {
             this.fitness = Integer.parseInt(player.select("td:eq(8)").text().replace("\u00a0","").replace("%",""));
         }
@@ -58,7 +53,6 @@ public class Player {
             e.printStackTrace();
             this.fitness = 0;
         }
-//        System.out.println("Готовность - " + this.fitness + "%");
         try {
             String moralString = player.select("td:eq(9) > img").attr("alt").replace("\u00a0","");
             this.moral = new BigDecimal(moralString.replaceAll(".*\\(([0-9]\\.[0-9]{2}).*([0-9]\\.[0-9]{2})\\)","$1"));
@@ -69,7 +63,6 @@ public class Player {
             this.moral = BigDecimal.ZERO;
             this.moralChange = BigDecimal.ZERO;
         }
-//        System.out.println("Мораль - " + this.moral + ", изменение - " + this.moralChange);
         try {
             this.realStrength = Integer.parseInt(player.select("td:eq(10)").text().replace("\u00a0",""));
         }
@@ -77,7 +70,6 @@ public class Player {
             e.printStackTrace();
             this.realStrength = 0;
         }
-//        System.out.println("Реальная сила - " + this.realStrength);
 
         try {
             this.ratio = new BigDecimal(player.select("td:eq(11)").text().replace("\u00a0",""));
@@ -86,7 +78,6 @@ public class Player {
             e.printStackTrace();
             this.ratio = BigDecimal.ZERO;
         }
-//        System.out.println("Коффециент перспективности - " + this.ratio);
         try {
             this.games = Integer.parseInt(player.select("td:eq(12)").text().replace("\u00a0",""));
             if (player.select("td:eq(12) > font").attr("color").equals("green")) {
@@ -97,9 +88,7 @@ public class Player {
             e.printStackTrace();
             this.games = 0;
         }
-//        System.out.println("Игр подряд - " + this.games);
         this.specialities = player.select("td:eq(13)").text();
-//        System.out.println("Спецухи - " + this.specialities);
         try {
             this.cost = new BigDecimal(player.select("td:eq(14)").text().replace("\u00a0",""));
         }
@@ -107,7 +96,6 @@ public class Player {
             e.printStackTrace();
             this.cost = BigDecimal.ZERO;
         }
-//        System.out.println("Цена - " + this.cost);
         try {
             this.salary = new BigDecimal(player.select("td:eq(15)").text().replace("\u00a0",""));
         }
@@ -115,8 +103,6 @@ public class Player {
             e.printStackTrace();
             this.salary = BigDecimal.ZERO;
         }
-//        System.out.println("Зарплата - " + this.salary);
-//        System.out.println("============");
 
     }
 
@@ -173,6 +159,10 @@ public class Player {
     public Integer getAge()
     {
         return age;
+    }
+
+    public Integer getGames(){
+        return games;
     }
 
 }

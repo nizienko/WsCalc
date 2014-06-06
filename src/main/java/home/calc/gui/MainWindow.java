@@ -1,7 +1,6 @@
 package home.calc.gui;
 
 import home.calc.Lineup;
-import home.calc.Player;
 import home.calc.RosterContent;
 import home.calc.utils.Actions;
 import home.calc.utils.Listeners;
@@ -11,8 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.*;
-import java.util.List;
+
 
 /**
  * User: def
@@ -113,10 +111,10 @@ public class MainWindow extends JFrame {
 
     public void cleanLineup(String own){
         if(own.equals("my")){
-            myTeamRoster.loadLineupData(new Lineup(), "0");
+            myTeamRoster.loadLineupData(new Lineup(null), "0");
         }
         else if(own.equals("his")){
-            opponentRoster.loadLineupData(new Lineup(), "0");
+            opponentRoster.loadLineupData(new Lineup(null), "0");
         }
     }
 

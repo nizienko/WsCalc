@@ -42,7 +42,6 @@ public class RosterContent {
                 }
             }
             sortedPlayers.add(players.get(best));
-//            System.out.println("Ставим " + players.get(best).getName() + " вверх");
             players.remove(best);
             best=0;
         }
@@ -53,7 +52,7 @@ public class RosterContent {
         System.out.println("Посчитаем среднюю силу игроков");
         Integer mySum = 0;
         Integer opponentSum = 0;
-        Integer i = 0;
+        Integer i;
 
         System.out.println("Моя команда");
         for( i = 0; i < myPlayers.size(); i++){
@@ -73,7 +72,6 @@ public class RosterContent {
         System.out.println("Суммарная смла " + opponentSum + " средняя сила " + opponentAvg + " Игроков " + opponentPlayers.size());
 
         BigDecimal avg = myAvg.add(opponentAvg).divide(new BigDecimal(2), RoundingMode.HALF_UP);
-//        System.out.println("Проставим GOOG и BAD и вычислим BEST");
         int myBest = 0;
         int opponentBest = 0;
 
@@ -99,8 +97,6 @@ public class RosterContent {
                 }
             }
         }
-        System.out.println("Мой лучший "+myPlayers.get(myBest).getName()+" "+myPlayers.get(myBest).getRealStrength());
-        System.out.println("Его лучший "+opponentPlayers.get(opponentBest).getName()+" "+opponentPlayers.get(opponentBest).getRealStrength());
         if (myPlayers.get(myBest).strongerThan(opponentPlayers.get(opponentBest))) {
             myPlayers.get(myBest).setPerformance(Performance.BEST);
         }
