@@ -89,10 +89,11 @@ public class MainWindow extends JFrame {
     }
     public void showRosters(RosterContent rosters){
         myTeamRoster.loadData(rosters.getMyPlayers());
-        myTeamRoster.setMinStr();
         opponentRoster.loadData(rosters.getOpponentPlayers());
+    }
+    public void setMinStr(){
+        myTeamRoster.setMinStr();
         opponentRoster.setMinStr();
-
     }
     public void showCompareWindow(){
         compareInfoFrame.showWindow();
@@ -113,10 +114,10 @@ public class MainWindow extends JFrame {
 
     public void cleanLineup(String own){
         if(own.equals("my")){
-            myTeamRoster.loadLineupData(new Lineup(null), "0");
+            myTeamRoster.cleanLineup();
         }
         else if(own.equals("his")){
-            opponentRoster.loadLineupData(new Lineup(null), "0");
+            opponentRoster.cleanLineup();
         }
     }
 

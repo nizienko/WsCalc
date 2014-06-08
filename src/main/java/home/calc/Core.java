@@ -43,6 +43,7 @@ public class Core {
             mainWindow.hideLoadFrame();
             RosterContent rosterContent = new RosterContent(myTeam.getPlayerList(), competitorTeam.getPlayerList());
             mainWindow.showRosters(rosterContent);
+            mainWindow.setMinStr();
 
 //            LineupList lineupList1 = new LineupList(myTeam, 40, 90);
 
@@ -82,11 +83,13 @@ public class Core {
             if (own.equals("my")){
                 String[] formations = mainWindow.getFormations(own);
                 this.myLineups = new LineupListThread(myTeam, mainWindow.getStregth(own), mainWindow.getFitnes(own), formations, mainWindow.getRoster(own));
+                this.mainWindow.cleanLineup(own);
                 this.myLineups.start();
             }
             else if (own.equals("his")){
                 String[] formations = mainWindow.getFormations(own);
                 this.competitorLineups = new LineupListThread(competitorTeam, mainWindow.getStregth(own), mainWindow.getFitnes(own), formations, mainWindow.getRoster(own));
+                this.mainWindow.cleanLineup(own);
                 this.competitorLineups.start();
             }
         }

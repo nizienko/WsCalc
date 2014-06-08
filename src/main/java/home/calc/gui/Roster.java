@@ -142,6 +142,14 @@ public class Roster extends JPanel {
 
     }
 
+    public void cleanLineup(){
+        int rows = model2.getRowCount();
+        for(int i = rows - 1; i >=0; i--)
+        {
+            model2.removeRow(i);
+        }
+    }
+
     public String[] getFormations(){
         int[] i = formationList.getSelectedIndices();
         String[] out = new String[i.length];
