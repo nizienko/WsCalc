@@ -10,5 +10,6 @@ public enum Actions {
     POSITION_REPORT,
     FIND_LINEUPS,
     COMPARE_TEAMS,
-    SWITCH_LINEUPS
+    SWITCH_LINEUPS,
+    STOP
 }

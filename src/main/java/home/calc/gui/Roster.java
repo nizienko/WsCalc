@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 
@@ -37,9 +38,14 @@ public class Roster extends JPanel {
     private JList formationList;
     private String[] formations;
     private JLabel totalLineups;
+    private String own;
+    private Listeners listeners;
+
 
 
     public Roster(Listeners listeners, String own) {
+        this.listeners = listeners;
+        this.own = own;
         formations = new String[]{ "7-2-1", "6-3-1", "6-2-2", "5-4-1", "5-3-2", "5-2-3", "4-4-2", "4-5-1", "4-3-3", "3-6-1", "3-5-2", "3-4-3", "3-3-4", "4-2-4","3-2-5" };
         model1 = new DefaultTableModel(null, columnTitles1);
         model2 = new DefaultTableModel(null, columnTitles2);
@@ -182,6 +188,28 @@ public class Roster extends JPanel {
         }
 
     }
+
+    public void setMinStr(){
+        this.str.setText(model1.getValueAt(12, 2).toString());
+    }
+
+    public void showCount(String count){
+        this.totalLineups.setText(count);
+
+    }
+
+    public void disableButton(){
+        findLineups.setText("Stop");
+        findLineups.removeActionListener(listeners.get(Actions.FIND_LINEUPS));
+        findLineups.addActionListener(listeners.get(Actions.STOP));
+    }
+
+    public void enableButton(){
+        findLineups.setText("Find");
+        findLineups.removeActionListener(listeners.get(Actions.STOP));
+        findLineups.addActionListener(listeners.get(Actions.FIND_LINEUPS));
+    }
+
     public void loadLineupData(Lineup players, String totalLineups){;
         int rows = model2.getRowCount();
         for(int i = rows - 1; i >=0; i--)

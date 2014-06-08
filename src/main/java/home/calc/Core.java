@@ -23,8 +23,9 @@ public class Core {
     private Listeners listeners = new Listeners();
     private Team myTeam;
     private Team competitorTeam;
-    private LineupList myLineups;
-    private LineupList competitorLineups;
+    private LineupListThread myLineups;
+    private LineupListThread competitorLineups;
+
 
     public Core() {
         this.setActionListeners();
@@ -79,56 +80,83 @@ public class Core {
     private void findLineups(String own){
         try {
             if (own.equals("my")){
-                Integer i = 0;
-                Integer curStr = 250;
-                Integer str = mainWindow.getStregth(own);
                 String[] formations = mainWindow.getFormations(own);
-                while (i < 100 & curStr >= str) {
-                    this.myLineups = new LineupList(myTeam, curStr, mainWindow.getFitnes(own), formations);
-                    i = this.myLineups.count();
-                    curStr = curStr - 1;
-                }
-                System.out.println(" " + this.myLineups.count());
-
-                try {
-                    mainWindow.showLineup(this.myLineups.getLineups().get(0), myLineups.getCurrent()+"/"+myLineups.count(), own);
-                }
-                catch (IndexOutOfBoundsException e){
-                    e.printStackTrace();
-                    mainWindow.cleanLineup(own);
-                }
+                this.myLineups = new LineupListThread(myTeam, mainWindow.getStregth(own), mainWindow.getFitnes(own), formations, mainWindow.getRoster(own));
+                this.myLineups.start();
             }
-            else if (own.equals("his")) {
-                Integer i = 0;
-                Integer curStr = 200;
-                Integer str = mainWindow.getStregth(own);
+            else if (own.equals("his")){
                 String[] formations = mainWindow.getFormations(own);
-                while (i < 100 & curStr >= str) {
-                    this.competitorLineups = new LineupList(this.competitorTeam, curStr, mainWindow.getFitnes(own), formations);
-                    i = this.competitorLineups.count();
-                    curStr = curStr - 1;
-                }
-                try {
-                    mainWindow.showLineup(this.competitorLineups.getLineups().get(0), competitorLineups.getCurrent()+"/"+competitorLineups.count(),own);
-                }
-                catch (IndexOutOfBoundsException e){
-                    e.printStackTrace();
-                    mainWindow.cleanLineup(own);
-                }
+                this.competitorLineups = new LineupListThread(competitorTeam, mainWindow.getStregth(own), mainWindow.getFitnes(own), formations, mainWindow.getRoster(own));
+                this.competitorLineups.start();
             }
-            try {
-                mainWindow.loadCompareInfo(myLineups.getLineups().get(myLineups.getCurrent()),
-                        competitorLineups.getLineups().get(competitorLineups.getCurrent()));
-            }
-            catch (Exception e){
-
-            }
-
         }
-        catch (Exception e){
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private void stop(String own){
+        if (own.equals("my")){
+            this.myLineups.stopWork();
+        }
+        else if (own.equals("his")){
+            this.competitorLineups.stopWork();
+        }
+    }
+
+//    private void findLineups(String own){
+//        try {
+//            if (own.equals("my")){
+//                Integer i = 0;
+//                Integer curStr = 250;
+//                Integer str = mainWindow.getStregth(own);
+//                String[] formations = mainWindow.getFormations(own);
+//                while (i < 100 & curStr >= str) {
+//                    this.myLineups = new LineupList(myTeam, curStr, mainWindow.getFitnes(own), formations);
+//                    i = this.myLineups.count();
+//                    curStr = curStr - 1;
+//                }
+//                System.out.println(" " + this.myLineups.count());
+//
+//                try {
+//                    mainWindow.showLineup(this.myLineups.getLineups().get(0), myLineups.getCurrent()+"/"+myLineups.count(), own);
+//                }
+//                catch (IndexOutOfBoundsException e){
+//                    e.printStackTrace();
+//                    mainWindow.cleanLineup(own);
+//                }
+//            }
+//            else if (own.equals("his")) {
+//                Integer i = 0;
+//                Integer curStr = 200;
+//                Integer str = mainWindow.getStregth(own);
+//                String[] formations = mainWindow.getFormations(own);
+//                while (i < 100 & curStr >= str) {
+//                    this.competitorLineups = new LineupList(this.competitorTeam, curStr, mainWindow.getFitnes(own), formations);
+//                    i = this.competitorLineups.count();
+//                    curStr = curStr - 1;
+//                }
+//                try {
+//                    mainWindow.showLineup(this.competitorLineups.getLineups().get(0), competitorLineups.getCurrent()+"/"+competitorLineups.count(),own);
+//                }
+//                catch (IndexOutOfBoundsException e){
+//                    e.printStackTrace();
+//                    mainWindow.cleanLineup(own);
+//                }
+//            }
+//            try {
+//                mainWindow.loadCompareInfo(myLineups.getLineups().get(myLineups.getCurrent()),
+//                        competitorLineups.getLineups().get(competitorLineups.getCurrent()));
+//            }
+//            catch (Exception e){
+//
+//            }
+//
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
 
     private void switchLineups(String cmd){
         System.out.println(cmd);
@@ -215,6 +243,14 @@ public class Core {
             public void actionPerformed(ActionEvent e) {
 
                 findLineups(e.getActionCommand());
+
+            }
+        });
+        listeners.put(Actions.STOP, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                stop(e.getActionCommand());
 
             }
         });

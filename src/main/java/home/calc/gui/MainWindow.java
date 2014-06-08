@@ -89,7 +89,9 @@ public class MainWindow extends JFrame {
     }
     public void showRosters(RosterContent rosters){
         myTeamRoster.loadData(rosters.getMyPlayers());
+        myTeamRoster.setMinStr();
         opponentRoster.loadData(rosters.getOpponentPlayers());
+        opponentRoster.setMinStr();
 
     }
     public void showCompareWindow(){
@@ -151,5 +153,14 @@ public class MainWindow extends JFrame {
         else {
             return 0;
         }
+    }
+    public Roster getRoster(String own){
+        if (own.equals("my")){
+            return myTeamRoster;
+        }
+        else if (own.equals("his")){
+            return opponentRoster;
+        }
+        else return null;
     }
 }
