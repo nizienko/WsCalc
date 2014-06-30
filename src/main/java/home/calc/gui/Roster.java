@@ -23,8 +23,8 @@ import java.util.List;
 public class Roster extends JPanel {
     private JTable table1;
     private JTable table2;
-    private String[] columnTitles1 = { "Position", "Name", "Real Stregth", "Fitnes", "Specialities" };
-    private String[] columnTitles2 = { "Position", "Name", "Real Stregth", "Fitnes", "Specialities"};
+    private String[] columnTitles1 = { "Name", "Position", "Real Stregth", "Fitnes", "Specialities" };
+    private String[] columnTitles2 = { "Position", "Name", "Real Stregth", "Fitnes", "Specialities" };
     private JScrollPane tableScrollPane1;
     private JScrollPane tableScrollPane2;
     private DefaultTableModel model1;
