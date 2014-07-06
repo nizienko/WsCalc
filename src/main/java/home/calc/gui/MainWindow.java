@@ -22,8 +22,11 @@ public class MainWindow extends JFrame {
     private JMenu menuTeam;
     private JMenuItem loadTeams;
     private JMenuItem compareTeams;
+    private JMenuItem schema;
+
     private LoadTeamsFrame loadTeamsFrame;
     private CompareInfoFrame compareInfoFrame;
+    private SchemaFrame schemaFrame;
     private JPanel mainPanel;
     private JPanel centerPanel;
     private Roster myTeamRoster;
@@ -44,10 +47,14 @@ public class MainWindow extends JFrame {
         menuBar.add(menuTeam);
         loadTeams = new JMenuItem("Load teams", KeyEvent.VK_L);
         compareTeams = new JMenuItem("Compare teams", KeyEvent.VK_C);
+        schema = new JMenuItem("Schema", KeyEvent.VK_S);
         menuTeam.add(loadTeams);
         menuTeam.add(compareTeams);
+        menuTeam.add(schema);
+
         compareTeams.addActionListener(listeners.get(Actions.COMPARE_TEAMS));
         loadTeamsFrame = new LoadTeamsFrame(listeners);
+        schemaFrame = new SchemaFrame();
         compareInfoFrame = new CompareInfoFrame();
         loadTeams.addActionListener(new ActionListener() {
             @Override
@@ -55,6 +62,14 @@ public class MainWindow extends JFrame {
                 loadTeamsFrame.setVisible(true);
             }
         });
+        schema.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                schemaFrame.setVisible(true);
+            }
+        });
+
+
         upperPanel = new UpperPanel(listeners);
         upperPanel.setVisible(false);
         this.setJMenuBar(menuBar);
@@ -101,6 +116,7 @@ public class MainWindow extends JFrame {
 
     public void loadCompareInfo(Lineup l1, Lineup l2){
         compareInfoFrame.showInfo(l1, l2);
+        schemaFrame.loadLineUps(l1, l2);
     }
 
     public void showLineup(Lineup lineup, String totalLineups, String own){

@@ -206,6 +206,16 @@ public class Lineup {
         this.leaderBonus = new BigDecimal(lineUp.get(leader).getPlayer().getRealStrength()).divide(new BigDecimal(10), RoundingMode.UP).intValue();
     }
 
+    public ArrayList<PlayerOnPosition> getPlayersByPosition(Positions position) {
+        ArrayList <PlayerOnPosition> players = new ArrayList<PlayerOnPosition>();
+        for (PlayerOnPosition p: lineUp) {
+            if (p.getPosition().equals(position)) {
+                players.add(p);
+            }
+        }
+        return players;
+    }
+
 
     public void calculate() {
         this.findLeader();

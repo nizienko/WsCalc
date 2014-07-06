@@ -44,6 +44,8 @@ public class CompareInfoFrame extends JFrame {
         this.setVisible(true);
     }
 
+
+
     public void showInfo(Lineup l1, Lineup l2){
         int rows = model1.getRowCount();
         for(int i = rows - 1; i >=0; i--)

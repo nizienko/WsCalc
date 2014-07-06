@@ -143,6 +143,10 @@ public class Player {
         return this.getRealStrength()>player.getRealStrength();
     }
 
+    public BigDecimal getMoral(){
+        return moral;
+    }
+
     public Integer getFitness(){
         return fitness;
     }

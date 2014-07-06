@@ -23,8 +23,8 @@ import java.util.List;
 public class Roster extends JPanel {
     private JTable table1;
     private JTable table2;
-    private String[] columnTitles1 = { "Name", "Position", "Real Stregth", "Fitnes", "Specialities" };
-    private String[] columnTitles2 = { "Position", "Name", "Real Stregth", "Fitnes", "Specialities" };
+    private String[] columnTitles1 = { "Name(Age/Str)", "Position", "Real Stregth", "Fitnes(moral)", "Specialities" };
+    private String[] columnTitles2 = { "Position", "Name(Age/Str)", "Real Stregth", "Fitnes(moral)", "Specialities" };
     private JScrollPane tableScrollPane1;
     private JScrollPane tableScrollPane2;
     private DefaultTableModel model1;
@@ -74,8 +74,13 @@ public class Roster extends JPanel {
         tablePanel1.add(tableScrollPane1, BorderLayout.CENTER);
         tablePanel2.add(tableScrollPane2, BorderLayout.CENTER);
         JPanel eastPanel = new JPanel();
-        eastPanel.setLayout(new GridLayout(9,1));
+        eastPanel.setLayout(new GridLayout(10,1));
         eastPanel.add(totalLineups);
+
+        JButton first = new JButton("max");
+        first.setActionCommand(own+"_first");
+        first.addActionListener(listeners.get(Actions.SWITCH_LINEUPS));
+        eastPanel.add(first);
 
         JButton next = new JButton(">");
         next.setActionCommand(own+"_next");
@@ -144,7 +149,7 @@ public class Roster extends JPanel {
 
     public void cleanLineup(){
         int rows = model2.getRowCount();
-        for(int i = rows - 1; i >=0; i--)
+        for(int i = rows - 1; i >= 0; i--)
         {
             model2.removeRow(i);
         }
@@ -188,10 +193,10 @@ public class Roster extends JPanel {
         }
         for (Player p: players){
             model1.addRow(new String[] {
-                    p.getName(),
+                    p.getName()+ "(" + p.getAge() + "/" + p.getStrength() + ")",
                     p.getPosition(),
                     p.getRealStrength().toString(),
-                    p.getFitness().toString(),
+                    p.getFitness().toString() + "% (" + p.getMoral() +")",
                     p.getSpecialities() });
         }
 
@@ -227,9 +232,9 @@ public class Roster extends JPanel {
         for (PlayerOnPosition p: players.getPlayers()) {
             model2.addRow(new String[]{
                     p.getPosition().toString(),
-                    p.getPlayer().getName(),
+                    p.getPlayer().getName() + "(" + p.getPlayer().getAge() + "/" + p.getPlayer().getStrength() + ")",
                     p.getPredictedStrength().toString(),
-                    p.getPlayer().getFitness().toString()+"%",
+                    p.getPlayer().getFitness().toString()+"% (" + p.getPlayer().getMoral() + ")",
                     p.getPlayer().getSpecialities()
 
             });
@@ -287,9 +292,9 @@ public class Roster extends JPanel {
         for(Player p: players.getSubstitutions()){
             model2.addRow(new String[]{
                     p.getPosition().toString(),
-                    p.getName(),
+                    p.getName() + "(" + p.getAge() + "/" + p.getStrength() + ")",
                     p.getRealStrength().toString(),
-                    p.getFitness().toString() + "%("+p.getGames()+")",
+                    p.getFitness().toString() + "% ("+p.getMoral()+") Games: " + p.getGames(),
                     p.getSpecialities()
 
             });

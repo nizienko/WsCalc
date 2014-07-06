@@ -907,6 +907,11 @@ public class LineupListThread extends Thread {
         }
         return allLineups.get(current);
     }
+
+    public Lineup getFirst(){
+        current = 0;
+        return allLineups.get(current);
+    }
     public Lineup getPrev(){
         if (current>0){
             current--;

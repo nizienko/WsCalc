@@ -80,6 +80,9 @@ public class Core {
 
     private void findLineups(String own){
         try {
+            if (myTeam == null) {
+                throw new NullPointerException();
+            }
             if (own.equals("my")){
                 String[] formations = mainWindow.getFormations(own);
                 this.myLineups = new LineupListThread(myTeam, mainWindow.getStregth(own), mainWindow.getFitnes(own), formations, mainWindow.getRoster(own));
@@ -168,6 +171,12 @@ public class Core {
         }
         else if (cmd.equals("his_next")){
             mainWindow.showLineup(competitorLineups.getNext(), competitorLineups.getCurrent()+"/"+competitorLineups.count(), "his");
+        }
+        else if (cmd.equals("my_first")){
+            mainWindow.showLineup(myLineups.getFirst(), myLineups.getCurrent()+"/"+myLineups.count(), "my");
+        }
+        else if (cmd.equals("his_first")){
+            mainWindow.showLineup(competitorLineups.getFirst(), competitorLineups.getCurrent()+"/"+competitorLineups.count(), "his");
         }
         else if (cmd.equals("my_prev")){
             mainWindow.showLineup(myLineups.getPrev(), myLineups.getCurrent()+"/"+myLineups.count(), "my");
