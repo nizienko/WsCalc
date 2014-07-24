@@ -25,84 +25,82 @@ public class Calculator {
         this.competitor = competitor;
     }
 
-    public Team getMyTeam(){
+    public Team getMyTeam() {
         return myTeam;
     }
 
-    public Team getCompetitor(){
+    public Team getCompetitor() {
         return competitor;
     }
 
-    public String getOppositePosition(String position){
+    public String getOppositePosition(String position) {
         if (position.equals("GK")) return position;
         String oppositePosition = "";
-        if (position.substring(0,1).equals("L")) oppositePosition = "R";
-        else if (position.substring(0,1).equals("R")) oppositePosition = "L";
+        if (position.substring(0, 1).equals("L")) oppositePosition = "R";
+        else if (position.substring(0, 1).equals("R")) oppositePosition = "L";
         else oppositePosition = "C";
-        if (position.substring(1,2).equals("D")) oppositePosition = oppositePosition + "F";
-        else if (position.substring(1,2).equals("F")) oppositePosition = oppositePosition + "D";
+        if (position.substring(1, 2).equals("D")) oppositePosition = oppositePosition + "F";
+        else if (position.substring(1, 2).equals("F")) oppositePosition = oppositePosition + "D";
         else oppositePosition = oppositePosition + "M";
         return oppositePosition;
     }
 
-    public void positionsReport(){
+    public void positionsReport() {
 
-        for (Positions s: Positions.values()){
+        for (Positions s : Positions.values()) {
             String myPosition = s.toString();
             String competitorPosition = this.getOppositePosition(s.toString());
             System.out.println();
             System.out.println(myPosition + " против " + competitorPosition);
             ArrayList<Player> myPlayers = myTeam.getPlayersByPosition(myPosition);
-            System.out.println("Мои " + myPosition+":");
+            System.out.println("Мои " + myPosition + ":");
             Player myStrongestPlayer = myPlayers.get(0);
-            for (Player p: myPlayers) {
-                System.out.println(p.getName()+" "+p.getRealStrength());
+            for (Player p : myPlayers) {
+                System.out.println(p.getName() + " " + p.getRealStrength());
                 if (myStrongestPlayer.getRealStrength() < p.getRealStrength()) {
                     myStrongestPlayer = p;
                 }
             }
             ArrayList<Player> competitorPlayers = competitor.getPlayersByPosition(competitorPosition);
-            System.out.println("Его " + competitorPosition+":");
+            System.out.println("Его " + competitorPosition + ":");
             Player himStrongestPlayer = myPlayers.get(0);
-            for (Player p: competitorPlayers) {
-                System.out.println(p.getName()+" "+p.getRealStrength());
+            for (Player p : competitorPlayers) {
+                System.out.println(p.getName() + " " + p.getRealStrength());
                 if (himStrongestPlayer.getRealStrength() < p.getRealStrength()) {
                     himStrongestPlayer = p;
                 }
             }
             if (myStrongestPlayer.getRealStrength() >= himStrongestPlayer.getRealStrength()) {
                 System.out.println("(!) Выигрышная позиция");
-            }
-            else {
+            } else {
                 System.out.println("Проигрышная позиция");
             }
 
         }
     }
 
-    public RosterContent getPlayersReport(ArrayList <Player> myPlayers, ArrayList <Player> competitorPlayers){
+    public RosterContent getPlayersReport(ArrayList<Player> myPlayers, ArrayList<Player> competitorPlayers) {
 
-            Player myStrongestPlayer = myPlayers.get(0);
-            for (Player p: myPlayers) {
-                System.out.println(p.getName()+" "+p.getRealStrength());
-                if (myStrongestPlayer.getRealStrength() < p.getRealStrength()) {
-                    myStrongestPlayer = p;
-                }
+        Player myStrongestPlayer = myPlayers.get(0);
+        for (Player p : myPlayers) {
+            System.out.println(p.getName() + " " + p.getRealStrength());
+            if (myStrongestPlayer.getRealStrength() < p.getRealStrength()) {
+                myStrongestPlayer = p;
             }
+        }
 
-            Player hisStrongestPlayer = myPlayers.get(0);
-            for (Player p: competitorPlayers) {
-                System.out.println(p.getName()+" "+p.getRealStrength());
-                if (hisStrongestPlayer.getRealStrength() < p.getRealStrength()) {
-                    hisStrongestPlayer = p;
-                }
+        Player hisStrongestPlayer = myPlayers.get(0);
+        for (Player p : competitorPlayers) {
+            System.out.println(p.getName() + " " + p.getRealStrength());
+            if (hisStrongestPlayer.getRealStrength() < p.getRealStrength()) {
+                hisStrongestPlayer = p;
             }
-            if (myStrongestPlayer.getRealStrength() >= hisStrongestPlayer.getRealStrength()) {
-                System.out.println("(!) Выигрышная позиция");
-            }
-            else {
-                System.out.println("Проигрышная позиция");
-            }
-      return null;
+        }
+        if (myStrongestPlayer.getRealStrength() >= hisStrongestPlayer.getRealStrength()) {
+            System.out.println("(!) Выигрышная позиция");
+        } else {
+            System.out.println("Проигрышная позиция");
+        }
+        return null;
     }
 }

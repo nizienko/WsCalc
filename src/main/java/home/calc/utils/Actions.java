@@ -11,5 +11,6 @@ public enum Actions {
     FIND_LINEUPS,
     COMPARE_TEAMS,
     SWITCH_LINEUPS,
-    STOP
+    STOP,
+    ROSTER
 }

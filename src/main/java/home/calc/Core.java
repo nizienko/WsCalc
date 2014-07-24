@@ -6,6 +6,8 @@ import home.calc.utils.Listeners;
 import home.calc.utils.Positions;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -38,24 +40,22 @@ public class Core {
         System.out.println("Loading teams...");
         try {
             myTeam = new Team(mainWindow.getMyTeamUrl());
-            System.out.println("Моих игроков "+myTeam.getPlayersCount());
+            System.out.println("Моих игроков " + myTeam.getPlayersCount());
             competitorTeam = new Team(mainWindow.getOpponentTeamUrl());
             mainWindow.hideLoadFrame();
             RosterContent rosterContent = new RosterContent(myTeam.getPlayerList(), competitorTeam.getPlayerList());
             mainWindow.showRosters(rosterContent);
-            mainWindow.setMinStr();
 
 //            LineupList lineupList1 = new LineupList(myTeam, 40, 90);
 
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(mainWindow, "Loading error");
             e.printStackTrace();
         }
     }
 
-    private void positionReport(String position){
+    private void positionReport(String position) {
         System.out.println("Update rosters");
         System.out.println("Моих игроков " + myTeam.getPlayersCount());
 
@@ -67,8 +67,7 @@ public class Core {
             rosterContent.markPlayers();
             mainWindow.showRosters(rosterContent);
 
-        }
-        else {
+        } else {
             RosterContent rosterContent = new RosterContent(
                     myTeam.getPlayerList(),
                     competitorTeam.getPlayerList());
@@ -78,165 +77,94 @@ public class Core {
 
     }
 
-    private void findLineups(String own){
+    private void findLineups(String own) {
         try {
             if (myTeam == null) {
                 throw new NullPointerException();
             }
-            if (own.equals("my")){
+            if (own.equals("my")) {
                 String[] formations = mainWindow.getFormations(own);
-                this.myLineups = new LineupListThread(myTeam, mainWindow.getStregth(own), mainWindow.getFitnes(own), formations, mainWindow.getRoster(own));
+                this.myLineups = new LineupListThread(myTeam, formations, mainWindow.getRoster(own));
                 this.mainWindow.cleanLineup(own);
                 this.myLineups.start();
-            }
-            else if (own.equals("his")){
+            } else if (own.equals("his")) {
                 String[] formations = mainWindow.getFormations(own);
-                this.competitorLineups = new LineupListThread(competitorTeam, mainWindow.getStregth(own), mainWindow.getFitnes(own), formations, mainWindow.getRoster(own));
+                this.competitorLineups = new LineupListThread(competitorTeam, formations, mainWindow.getRoster(own));
                 this.mainWindow.cleanLineup(own);
                 this.competitorLineups.start();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void stop(String own){
-        if (own.equals("my")){
+    private void stop(String own) {
+        if (own.equals("my")) {
             this.myLineups.stopWork();
-        }
-        else if (own.equals("his")){
+        } else if (own.equals("his")) {
             this.competitorLineups.stopWork();
         }
     }
 
-//    private void findLineups(String own){
-//        try {
-//            if (own.equals("my")){
-//                Integer i = 0;
-//                Integer curStr = 250;
-//                Integer str = mainWindow.getStregth(own);
-//                String[] formations = mainWindow.getFormations(own);
-//                while (i < 100 & curStr >= str) {
-//                    this.myLineups = new LineupList(myTeam, curStr, mainWindow.getFitnes(own), formations);
-//                    i = this.myLineups.count();
-//                    curStr = curStr - 1;
-//                }
-//                System.out.println(" " + this.myLineups.count());
-//
-//                try {
-//                    mainWindow.showLineup(this.myLineups.getLineups().get(0), myLineups.getCurrent()+"/"+myLineups.count(), own);
-//                }
-//                catch (IndexOutOfBoundsException e){
-//                    e.printStackTrace();
-//                    mainWindow.cleanLineup(own);
-//                }
-//            }
-//            else if (own.equals("his")) {
-//                Integer i = 0;
-//                Integer curStr = 200;
-//                Integer str = mainWindow.getStregth(own);
-//                String[] formations = mainWindow.getFormations(own);
-//                while (i < 100 & curStr >= str) {
-//                    this.competitorLineups = new LineupList(this.competitorTeam, curStr, mainWindow.getFitnes(own), formations);
-//                    i = this.competitorLineups.count();
-//                    curStr = curStr - 1;
-//                }
-//                try {
-//                    mainWindow.showLineup(this.competitorLineups.getLineups().get(0), competitorLineups.getCurrent()+"/"+competitorLineups.count(),own);
-//                }
-//                catch (IndexOutOfBoundsException e){
-//                    e.printStackTrace();
-//                    mainWindow.cleanLineup(own);
-//                }
-//            }
-//            try {
-//                mainWindow.loadCompareInfo(myLineups.getLineups().get(myLineups.getCurrent()),
-//                        competitorLineups.getLineups().get(competitorLineups.getCurrent()));
-//            }
-//            catch (Exception e){
-//
-//            }
-//
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
-
-    private void switchLineups(String cmd){
+    private void switchLineups(String cmd) {
         System.out.println(cmd);
-        if (cmd.equals("my_next")){
-            mainWindow.showLineup(myLineups.getNext(), myLineups.getCurrent()+"/"+myLineups.count(), "my");
-        }
-        else if (cmd.equals("his_next")){
-            mainWindow.showLineup(competitorLineups.getNext(), competitorLineups.getCurrent()+"/"+competitorLineups.count(), "his");
-        }
-        else if (cmd.equals("my_first")){
-            mainWindow.showLineup(myLineups.getFirst(), myLineups.getCurrent()+"/"+myLineups.count(), "my");
-        }
-        else if (cmd.equals("his_first")){
-            mainWindow.showLineup(competitorLineups.getFirst(), competitorLineups.getCurrent()+"/"+competitorLineups.count(), "his");
-        }
-        else if (cmd.equals("my_prev")){
-            mainWindow.showLineup(myLineups.getPrev(), myLineups.getCurrent()+"/"+myLineups.count(), "my");
-        }
-        else if (cmd.equals("his_prev")){
-            mainWindow.showLineup(competitorLineups.getPrev(), competitorLineups.getCurrent()+"/"+competitorLineups.count(), "his");
-        }
-        else if (cmd.equals("my_def")){
-            mainWindow.showLineup(myLineups.getBestDefence(), myLineups.getCurrent()+"/"+myLineups.count(), "my");
-        }
-        else if (cmd.equals("his_def")){
-            mainWindow.showLineup(competitorLineups.getBestDefence(), competitorLineups.getCurrent()+"/"+competitorLineups.count(), "his");
-        }
-        else if (cmd.equals("my_mid")){
-            mainWindow.showLineup(myLineups.getBestMidle(), myLineups.getCurrent()+"/"+myLineups.count(), "my");
-        }
-        else if (cmd.equals("his_mid")){
-            mainWindow.showLineup(competitorLineups.getBestMidle(), competitorLineups.getCurrent()+"/"+competitorLineups.count(), "his");
-        }
-        else if (cmd.equals("my_frw")){
-            mainWindow.showLineup(myLineups.getBestForward(), myLineups.getCurrent()+"/"+myLineups.count(), "my");
-        }
-        else if (cmd.equals("his_frw")){
-            mainWindow.showLineup(competitorLineups.getBestForward(), competitorLineups.getCurrent()+"/"+competitorLineups.count(), "his");
-        }
-        else if (cmd.equals("my_left")){
-            mainWindow.showLineup(myLineups.getBestRight(), myLineups.getCurrent()+"/"+myLineups.count(), "my");
-        }
-        else if (cmd.equals("his_left")){
-            mainWindow.showLineup(competitorLineups.getBestLeft(), competitorLineups.getCurrent()+"/"+competitorLineups.count(), "his");
-        }
-        else if (cmd.equals("my_center")){
-            mainWindow.showLineup(myLineups.getBestCenter(), myLineups.getCurrent()+"/"+myLineups.count(), "my");
-        }
-        else if (cmd.equals("his_center")){
-            mainWindow.showLineup(competitorLineups.getBestCenter(), competitorLineups.getCurrent()+"/"+competitorLineups.count(), "his");
-        }
-        else if (cmd.equals("my_right")){
-            mainWindow.showLineup(myLineups.getBestRight(), myLineups.getCurrent()+"/"+myLineups.count(), "my");
-        }
-        else if (cmd.equals("his_right")){
-            mainWindow.showLineup(competitorLineups.getBestRight(), competitorLineups.getCurrent()+"/"+competitorLineups.count(), "his");
+        if (cmd.equals("my_next")) {
+            mainWindow.showLineup(myLineups.getNext(), myLineups.getCurrent() + "/" + myLineups.count(), "my");
+        } else if (cmd.equals("his_next")) {
+            mainWindow.showLineup(competitorLineups.getNext(), competitorLineups.getCurrent() + "/" + competitorLineups.count(), "his");
+        } else if (cmd.equals("my_first")) {
+            mainWindow.showLineup(myLineups.getFirst(), myLineups.getCurrent() + "/" + myLineups.count(), "my");
+        } else if (cmd.equals("his_first")) {
+            mainWindow.showLineup(competitorLineups.getFirst(), competitorLineups.getCurrent() + "/" + competitorLineups.count(), "his");
+        } else if (cmd.equals("my_prev")) {
+            mainWindow.showLineup(myLineups.getPrev(), myLineups.getCurrent() + "/" + myLineups.count(), "my");
+        } else if (cmd.equals("his_prev")) {
+            mainWindow.showLineup(competitorLineups.getPrev(), competitorLineups.getCurrent() + "/" + competitorLineups.count(), "his");
+        } else if (cmd.equals("my_def")) {
+            mainWindow.showLineup(myLineups.getBestDefence(), myLineups.getCurrent() + "/" + myLineups.count(), "my");
+        } else if (cmd.equals("his_def")) {
+            mainWindow.showLineup(competitorLineups.getBestDefence(), competitorLineups.getCurrent() + "/" + competitorLineups.count(), "his");
+        } else if (cmd.equals("my_mid")) {
+            mainWindow.showLineup(myLineups.getBestMidle(), myLineups.getCurrent() + "/" + myLineups.count(), "my");
+        } else if (cmd.equals("his_mid")) {
+            mainWindow.showLineup(competitorLineups.getBestMidle(), competitorLineups.getCurrent() + "/" + competitorLineups.count(), "his");
+        } else if (cmd.equals("my_frw")) {
+            mainWindow.showLineup(myLineups.getBestForward(), myLineups.getCurrent() + "/" + myLineups.count(), "my");
+        } else if (cmd.equals("his_frw")) {
+            mainWindow.showLineup(competitorLineups.getBestForward(), competitorLineups.getCurrent() + "/" + competitorLineups.count(), "his");
+        } else if (cmd.equals("my_left")) {
+            mainWindow.showLineup(myLineups.getBestRight(), myLineups.getCurrent() + "/" + myLineups.count(), "my");
+        } else if (cmd.equals("his_left")) {
+            mainWindow.showLineup(competitorLineups.getBestLeft(), competitorLineups.getCurrent() + "/" + competitorLineups.count(), "his");
+        } else if (cmd.equals("my_center")) {
+            mainWindow.showLineup(myLineups.getBestCenter(), myLineups.getCurrent() + "/" + myLineups.count(), "my");
+        } else if (cmd.equals("his_center")) {
+            mainWindow.showLineup(competitorLineups.getBestCenter(), competitorLineups.getCurrent() + "/" + competitorLineups.count(), "his");
+        } else if (cmd.equals("my_right")) {
+            mainWindow.showLineup(myLineups.getBestRight(), myLineups.getCurrent() + "/" + myLineups.count(), "my");
+        } else if (cmd.equals("his_right")) {
+            mainWindow.showLineup(competitorLineups.getBestRight(), competitorLineups.getCurrent() + "/" + competitorLineups.count(), "his");
         }
         try {
             mainWindow.loadCompareInfo(myLineups.getLineups().get(myLineups.getCurrent()),
                     competitorLineups.getLineups().get(competitorLineups.getCurrent()));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
 
         }
 
     }
 
-    private void compareTeams(){
+    private void compareTeams() {
         mainWindow.showCompareWindow();
     }
 
+    private void savePlayersChanges(int c, int s) {
+        System.out.println("Changed " + c + " " + s);
+
+    }
 
 
-    private void setActionListeners(){
+    private void setActionListeners() {
         listeners.put(Actions.LOAD_TEAMS, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -269,10 +197,9 @@ public class Core {
         listeners.put(Actions.COMPARE_TEAMS, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try{
+                try {
                     compareTeams();
-                }
-                catch (Exception exception){
+                } catch (Exception exception) {
                     exception.printStackTrace();
                 }
             }
@@ -283,5 +210,6 @@ public class Core {
                 switchLineups(e.getActionCommand());
             }
         });
+
     }
 }

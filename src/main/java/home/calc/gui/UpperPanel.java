@@ -14,12 +14,12 @@ import java.awt.*;
  */
 public class UpperPanel extends JPanel {
 
-    public UpperPanel(Listeners listeners){
+    public UpperPanel(Listeners listeners) {
 
-        this.setLayout(new GridLayout(1,11));
+        this.setLayout(new GridLayout(1, 11));
 
 
-        for (Positions mode: Positions.values()) {
+        for (Positions mode : Positions.values()) {
             JButton positionsReport = new JButton(mode.toString());
             positionsReport.setActionCommand(mode.toString());
             positionsReport.addActionListener(listeners.get(Actions.POSITION_REPORT));

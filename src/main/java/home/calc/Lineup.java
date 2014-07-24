@@ -149,17 +149,15 @@ public class Lineup {
         return correct;
     }
 
-    public ArrayList<Player> getSubstitutions(){
-        ArrayList <Player> substitutionPlayers = team.getPlayerList();
-        for (PlayerOnPosition l: lineUp){
-            for (Player t: team.getPlayerList()){
-                if (l.getPlayer() == t){
+    public ArrayList<Player> getSubstitutions() {
+        ArrayList<Player> substitutionPlayers = team.getPlayerList();
+        for (PlayerOnPosition l : lineUp) {
+            for (Player t : team.getPlayerList()) {
+                if (l.getPlayer() == t) {
                     substitutionPlayers.remove(t);
-                }
-                else if (t.getGames() > -3) {
+                } else if (t.getGames() > -3) {
                     substitutionPlayers.remove(t);
-                }
-                else if (t.getRealStrength() == 0) {
+                } else if (t.getRealStrength() == 0) {
                     substitutionPlayers.remove(t);
                 }
             }
@@ -207,8 +205,8 @@ public class Lineup {
     }
 
     public ArrayList<PlayerOnPosition> getPlayersByPosition(Positions position) {
-        ArrayList <PlayerOnPosition> players = new ArrayList<PlayerOnPosition>();
-        for (PlayerOnPosition p: lineUp) {
+        ArrayList<PlayerOnPosition> players = new ArrayList<PlayerOnPosition>();
+        for (PlayerOnPosition p : lineUp) {
             if (p.getPosition().equals(position)) {
                 players.add(p);
             }

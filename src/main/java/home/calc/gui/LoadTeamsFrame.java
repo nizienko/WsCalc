@@ -5,6 +5,7 @@ import home.calc.utils.Listeners;
 
 import javax.swing.*;
 import java.awt.*;
+
 /**
  * User: def
  * Date: 5/23/14
@@ -13,6 +14,7 @@ import java.awt.*;
 public class LoadTeamsFrame extends JFrame {
     private JTextField team1;
     private JTextField team2;
+
     public LoadTeamsFrame(Listeners listeners) {
         this.setTitle("Load teams");
         this.setVisible(false);
@@ -23,7 +25,7 @@ public class LoadTeamsFrame extends JFrame {
         team1 = new JTextField("http://wifa.ws/modules.php?name=ngClub&cuid=941");
         team2 = new JTextField("http://wifa.ws/modules.php?name=ngClub&cuid=2478");
         JButton load = new JButton("Load");
-        panel.setLayout(new GridLayout(3,2));
+        panel.setLayout(new GridLayout(3, 2));
         panel.add(new JLabel("My team"));
         panel.add(team1);
         panel.add(new JLabel("Opponent"));
