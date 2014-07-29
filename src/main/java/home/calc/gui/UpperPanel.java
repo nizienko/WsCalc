@@ -1,5 +1,6 @@
 package home.calc.gui;
 
+import home.calc.Core;
 import home.calc.utils.Actions;
 import home.calc.utils.Listeners;
 import home.calc.utils.Positions;
@@ -14,7 +15,7 @@ import java.awt.*;
  */
 public class UpperPanel extends JPanel {
 
-    public UpperPanel(Listeners listeners) {
+    public UpperPanel(Core core) {
 
         this.setLayout(new GridLayout(1, 11));
 
@@ -22,7 +23,7 @@ public class UpperPanel extends JPanel {
         for (Positions mode : Positions.values()) {
             JButton positionsReport = new JButton(mode.toString());
             positionsReport.setActionCommand(mode.toString());
-            positionsReport.addActionListener(listeners.get(Actions.POSITION_REPORT));
+            positionsReport.addActionListener(core.getListener(Actions.POSITION_REPORT));
             this.add(positionsReport);
         }
 

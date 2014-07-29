@@ -1,5 +1,6 @@
 package home.calc.gui;
 
+import home.calc.Core;
 import home.calc.utils.Actions;
 import home.calc.utils.Listeners;
 
@@ -15,7 +16,7 @@ public class LoadTeamsFrame extends JFrame {
     private JTextField team1;
     private JTextField team2;
 
-    public LoadTeamsFrame(Listeners listeners) {
+    public LoadTeamsFrame(Core core) {
         this.setTitle("Load teams");
         this.setVisible(false);
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -32,7 +33,7 @@ public class LoadTeamsFrame extends JFrame {
         panel.add(team2);
         panel.add(new JLabel());
         panel.add(load);
-        load.addActionListener(listeners.get(Actions.LOAD_TEAMS));
+        load.addActionListener(core.getListener(Actions.LOAD_TEAMS));
         this.pack();
 
     }

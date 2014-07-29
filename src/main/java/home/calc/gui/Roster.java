@@ -1,5 +1,6 @@
 package home.calc.gui;
 
+import home.calc.Core;
 import home.calc.Lineup;
 import home.calc.Player;
 import home.calc.PlayerOnPosition;
@@ -39,12 +40,12 @@ public class Roster extends JPanel {
     private String[] formations;
     private JLabel totalLineups;
     private String own;
-    private Listeners listeners;
+    private Core core;
     ArrayList<Player> players;
 
 
-    public Roster(Listeners listeners, String own) {
-        this.listeners = listeners;
+    public Roster(Core core, String own) {
+        this.core = core;
         this.own = own;
         formations = new String[]{"7-2-1", "6-3-1", "6-2-2", "5-4-1", "5-3-2", "5-2-3", "4-4-2", "4-5-1", "4-3-3", "3-6-1", "3-5-2", "3-4-3", "3-3-4", "4-2-4", "3-2-5"};
         model1 = new MyTableModel(null, columnTitles1);
@@ -90,47 +91,47 @@ public class Roster extends JPanel {
 
         JButton first = new JButton("max");
         first.setActionCommand(own + "_first");
-        first.addActionListener(listeners.get(Actions.SWITCH_LINEUPS));
+        first.addActionListener(core.getListener(Actions.SWITCH_LINEUPS));
         eastPanel.add(first);
 
         JButton next = new JButton(">");
         next.setActionCommand(own + "_next");
-        next.addActionListener(listeners.get(Actions.SWITCH_LINEUPS));
+        next.addActionListener(core.getListener(Actions.SWITCH_LINEUPS));
         eastPanel.add(next);
 
         JButton prev = new JButton("<");
         prev.setActionCommand(own + "_prev");
-        prev.addActionListener(listeners.get(Actions.SWITCH_LINEUPS));
+        prev.addActionListener(core.getListener(Actions.SWITCH_LINEUPS));
         eastPanel.add(prev);
 
         JButton def = new JButton("D");
         def.setActionCommand(own + "_def");
-        def.addActionListener(listeners.get(Actions.SWITCH_LINEUPS));
+        def.addActionListener(core.getListener(Actions.SWITCH_LINEUPS));
         eastPanel.add(def);
 
         JButton mid = new JButton("M");
         mid.setActionCommand(own + "_mid");
-        mid.addActionListener(listeners.get(Actions.SWITCH_LINEUPS));
+        mid.addActionListener(core.getListener(Actions.SWITCH_LINEUPS));
         eastPanel.add(mid);
 
         JButton frw = new JButton("F");
         frw.setActionCommand(own + "_frw");
-        frw.addActionListener(listeners.get(Actions.SWITCH_LINEUPS));
+        frw.addActionListener(core.getListener(Actions.SWITCH_LINEUPS));
         eastPanel.add(frw);
 
         JButton left = new JButton("L");
-        left.addActionListener(listeners.get(Actions.SWITCH_LINEUPS));
+        left.addActionListener(core.getListener(Actions.SWITCH_LINEUPS));
         left.setActionCommand(own + "_left");
         eastPanel.add(left);
 
         JButton center = new JButton("C");
         center.setActionCommand(own + "_center");
-        center.addActionListener(listeners.get(Actions.SWITCH_LINEUPS));
+        center.addActionListener(core.getListener(Actions.SWITCH_LINEUPS));
         eastPanel.add(center);
 
         JButton right = new JButton("R");
         right.setActionCommand(own + "_right");
-        right.addActionListener(listeners.get(Actions.SWITCH_LINEUPS));
+        right.addActionListener(core.getListener(Actions.SWITCH_LINEUPS));
         eastPanel.add(right);
 
         tablePanel2.add(eastPanel, BorderLayout.EAST);
@@ -139,7 +140,7 @@ public class Roster extends JPanel {
         this.add(generateLineupsPanel, BorderLayout.SOUTH);
         findLineups = new JButton("find");
         findLineups.setActionCommand(own);
-        findLineups.addActionListener(listeners.get(Actions.FIND_LINEUPS));
+        findLineups.addActionListener(core.getListener(Actions.FIND_LINEUPS));
         formationList = new JList(formations);
         formationList.setLayoutOrientation(JList.VERTICAL);
         formationList.setVisibleRowCount(4);
@@ -192,14 +193,14 @@ public class Roster extends JPanel {
 
     public void disableButton() {
         findLineups.setText("Stop");
-        findLineups.removeActionListener(listeners.get(Actions.FIND_LINEUPS));
-        findLineups.addActionListener(listeners.get(Actions.STOP));
+        findLineups.removeActionListener(findLineups.getActionListeners()[0]);
+        findLineups.addActionListener(core.getListener(Actions.STOP));
     }
 
     public void enableButton() {
         findLineups.setText("Find");
-        findLineups.removeActionListener(listeners.get(Actions.STOP));
-        findLineups.addActionListener(listeners.get(Actions.FIND_LINEUPS));
+        findLineups.removeActionListener(findLineups.getActionListeners()[0]);
+        findLineups.addActionListener(core.getListener(Actions.FIND_LINEUPS));
     }
 
     public void loadLineupData(Lineup players, String totalLineups) {

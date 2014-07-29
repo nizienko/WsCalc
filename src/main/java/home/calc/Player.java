@@ -70,6 +70,7 @@ public class Player {
         } catch (NumberFormatException e) {
             e.printStackTrace();
             this.realStrength = 0;
+            this.canPlay = false;
         }
 
         try {

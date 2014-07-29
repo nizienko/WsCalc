@@ -8,6 +8,7 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * User: def
@@ -38,6 +39,32 @@ public class Team {
         for (Element s : teamPlayers) {
             this.players.add(new Player(s.parent().parent()));
         }
+        int[] str = new int[players.size()];
+        int i = 0;
+        for (Player p : players) {
+            if (p.canPlay()) {
+                try {
+                    str[i] = p.getRealStrength();
+                    i++;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        Arrays.sort(str);
+        int minStr;
+        try {
+            minStr = str[str.length - 11];
+        } catch (IndexOutOfBoundsException e) {
+            minStr = 0;
+        }
+        System.out.println(minStr);
+        for (int j = 0; j < players.size(); j++) {
+            if (players.get(j).getRealStrength() < minStr) {
+                players.get(j).setCanPlay(false);
+            }
+        }
+
     }
 
     public Integer getPlayersCount() {

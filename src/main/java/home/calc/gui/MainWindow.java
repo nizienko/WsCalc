@@ -1,5 +1,6 @@
 package home.calc.gui;
 
+import home.calc.Core;
 import home.calc.Lineup;
 import home.calc.RosterContent;
 import home.calc.utils.Actions;
@@ -33,8 +34,11 @@ public class MainWindow extends JFrame {
     private Roster myTeamRoster;
     private Roster opponentRoster;
     private UpperPanel upperPanel;
+    private Core core;
 
-    public MainWindow(Listeners listeners) {
+
+    public MainWindow(Core core/*, Listeners listeners*/) {
+        this.core = core;
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setDefaultLookAndFeelDecorated(false);
         this.setPreferredSize(new Dimension(900, 700));
@@ -53,8 +57,8 @@ public class MainWindow extends JFrame {
         menuTeam.add(compareTeams);
         menuTeam.add(schema);
 
-        compareTeams.addActionListener(listeners.get(Actions.COMPARE_TEAMS));
-        loadTeamsFrame = new LoadTeamsFrame(listeners);
+        compareTeams.addActionListener(core.getListener(Actions.COMPARE_TEAMS));
+        loadTeamsFrame = new LoadTeamsFrame(core);
         schemaFrame = new SchemaFrame();
         compareInfoFrame = new CompareInfoFrame();
         loadTeams.addActionListener(new ActionListener() {
@@ -71,13 +75,13 @@ public class MainWindow extends JFrame {
         });
 
 
-        upperPanel = new UpperPanel(listeners);
+        upperPanel = new UpperPanel(core);
         upperPanel.setVisible(false);
         this.setJMenuBar(menuBar);
         centerPanel = new JPanel();
         centerPanel.setLayout(new GridLayout(1, 2));
-        myTeamRoster = new Roster(listeners, "my");
-        opponentRoster = new Roster(listeners, "his");
+        myTeamRoster = new Roster(core, "my");
+        opponentRoster = new Roster(core, "his");
         centerPanel.add(myTeamRoster);
         centerPanel.add(opponentRoster);
         mainPanel = new JPanel();

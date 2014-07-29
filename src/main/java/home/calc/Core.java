@@ -6,12 +6,10 @@ import home.calc.utils.Listeners;
 import home.calc.utils.Positions;
 
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * User: def
@@ -20,9 +18,8 @@ import java.util.List;
  */
 public class Core {
 
-    private Calculator calculator;
+    private Activities activities;
     private MainWindow mainWindow;
-    private Listeners listeners = new Listeners();
     private Team myTeam;
     private Team competitorTeam;
     private LineupListThread myLineups;
@@ -30,10 +27,8 @@ public class Core {
 
 
     public Core() {
-        this.setActionListeners();
-        this.mainWindow = new MainWindow(listeners);
-        this.calculator = new Calculator();
-//        FormationGenerator formationGenerator = new FormationGenerator();
+        this.mainWindow = new MainWindow(this);
+        this.activities = new Activities();
     }
 
     private void loadTeams() {
@@ -45,8 +40,6 @@ public class Core {
             mainWindow.hideLoadFrame();
             RosterContent rosterContent = new RosterContent(myTeam.getPlayerList(), competitorTeam.getPlayerList());
             mainWindow.showRosters(rosterContent);
-
-//            LineupList lineupList1 = new LineupList(myTeam, 40, 90);
 
 
         } catch (Exception e) {
@@ -63,7 +56,7 @@ public class Core {
         if (!position.equals(Positions.ALL.toString())) {
             RosterContent rosterContent = new RosterContent(
                     this.myTeam.getPlayersByPosition(position),
-                    this.competitorTeam.getPlayersByPosition(calculator.getOppositePosition(position)));
+                    this.competitorTeam.getPlayersByPosition(activities.getOppositePosition(position)));
             rosterContent.markPlayers();
             mainWindow.showRosters(rosterContent);
 
@@ -163,53 +156,61 @@ public class Core {
 
     }
 
+    public ActionListener getListener(Actions action) {
+        switch (action) {
+            case LOAD_TEAMS:
+                return new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        loadTeams();
+                    }
+                };
+            case POSITION_REPORT:
+                return new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        positionReport(e.getActionCommand());
+                    }
+                };
+            case FIND_LINEUPS:
+                return new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
 
-    private void setActionListeners() {
-        listeners.put(Actions.LOAD_TEAMS, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadTeams();
-            }
-        });
+                        findLineups(e.getActionCommand());
 
-        listeners.put(Actions.POSITION_REPORT, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                positionReport(e.getActionCommand());
-            }
-        });
-        listeners.put(Actions.FIND_LINEUPS, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+                    }
+                };
+            case STOP:
+                return new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
 
-                findLineups(e.getActionCommand());
+                        stop(e.getActionCommand());
 
-            }
-        });
-        listeners.put(Actions.STOP, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+                    }
+                };
+            case COMPARE_TEAMS:
+                return new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            compareTeams();
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
+                        }
+                    }
+                };
+            case SWITCH_LINEUPS:
+                return new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        switchLineups(e.getActionCommand());
+                    }
+                };
 
-                stop(e.getActionCommand());
-
-            }
-        });
-        listeners.put(Actions.COMPARE_TEAMS, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    compareTeams();
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
-            }
-        });
-        listeners.put(Actions.SWITCH_LINEUPS, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                switchLineups(e.getActionCommand());
-            }
-        });
-
+        }
+        return null;
     }
+
 }
