@@ -1,6 +1,5 @@
 package home.calc;
 
-import home.calc.gui.MainWindow;
 import home.calc.gui.Roster;
 import home.calc.utils.Positions;
 

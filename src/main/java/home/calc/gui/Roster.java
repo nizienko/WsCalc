@@ -5,7 +5,6 @@ import home.calc.Lineup;
 import home.calc.Player;
 import home.calc.PlayerOnPosition;
 import home.calc.utils.Actions;
-import home.calc.utils.Listeners;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -14,9 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.util.*;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * User: def

@@ -4,10 +4,8 @@ import home.calc.Core;
 import home.calc.Lineup;
 import home.calc.RosterContent;
 import home.calc.utils.Actions;
-import home.calc.utils.Listeners;
 
 import javax.swing.*;
-import javax.swing.event.TableModelListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

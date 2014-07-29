@@ -1,17 +1,14 @@
 package home.calc.gui;
 
 import home.calc.Lineup;
-import home.calc.Player;
 import home.calc.PlayerOnPosition;
 import home.calc.utils.Positions;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.text.Position;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by def on 02.07.14.

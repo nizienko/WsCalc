@@ -2,11 +2,9 @@ package home.calc;
 
 import home.calc.gui.MainWindow;
 import home.calc.utils.Actions;
-import home.calc.utils.Listeners;
 import home.calc.utils.Positions;
 
 import javax.swing.*;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

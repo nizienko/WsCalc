@@ -1,7 +1,6 @@
 package home.calc;
 
 import home.calc.utils.Performance;
-import home.calc.utils.Positions;
 import org.jsoup.nodes.Element;
 
 import java.math.BigDecimal;
